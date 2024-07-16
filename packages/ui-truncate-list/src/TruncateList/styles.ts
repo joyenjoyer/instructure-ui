@@ -35,7 +35,7 @@ import type { TruncateListProps, TruncateListStyle } from './props'
  * @return {Object} The final style object, which will be used in the component
  */
 const generateStyle = (
-  _componentTheme: null,
+  _componentTheme: undefined,
   props: TruncateListProps
 ): TruncateListStyle => {
   const { itemSpacing, fixMenuTriggerWidth } = props

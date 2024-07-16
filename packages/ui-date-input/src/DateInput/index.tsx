@@ -62,7 +62,7 @@ category: components
 The `DateInput` component provides a visual interface for inputting date data.
 See <https://instructure.design/#DateInput/>
 **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @testable()
 class DateInput extends Component<DateInputProps, DateInputState> {
   static readonly componentId = 'DateInput'

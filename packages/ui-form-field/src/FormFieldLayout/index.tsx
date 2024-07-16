@@ -52,7 +52,7 @@ parent: FormField
 ---
 **/
 @withDeterministicId()
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 class FormFieldLayout extends Component<FormFieldLayoutProps> {
   static readonly componentId = 'FormFieldLayout'
 

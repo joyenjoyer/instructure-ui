@@ -39,9 +39,9 @@ import type {
   SimpleType,
   TSFunctionSignatureType,
   TypeDescriptor
-} from '../../buildScripts/DataTypes.mts'
+} from '../../buildScripts/DataTypes.mjs'
 
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 class Properties extends Component<PropertiesProps> {
   static defaultProps = {
     layout: 'small'

@@ -47,7 +47,7 @@ import type { TruncateListProps, TruncateListState } from './props'
 category: components/utilities
 ---
 **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @testable()
 class TruncateList extends Component<TruncateListProps, TruncateListState> {
   static readonly componentId = 'TruncateList'

@@ -49,7 +49,7 @@ import generateStyle from './styles'
 category: components
 ---
 **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @testable()
 class ColorMixer extends Component<ColorMixerProps, ColorMixerState> {
   static propTypes = propTypes

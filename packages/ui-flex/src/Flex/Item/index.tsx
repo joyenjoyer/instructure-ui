@@ -40,7 +40,7 @@ parent: Flex
 id: Flex.Item
 ---
 **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 class Item extends Component<FlexItemProps> {
   static readonly componentId = 'Flex.Item'
 

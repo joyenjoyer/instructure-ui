@@ -80,7 +80,7 @@ category: components
 ---
 **/
 @withDeterministicId()
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @testable()
 class Pagination extends Component<PaginationProps> {
   static readonly componentId = 'Pagination'

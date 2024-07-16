@@ -41,7 +41,7 @@ category: components
 ---
 **/
 // needed for listing the available theme variables on docs page
-@withStyle(null, generateComponentTheme)
+@withStyle(undefined, generateComponentTheme)
 @testable()
 class Button extends Component<ButtonProps> {
   static readonly componentId = 'Button'

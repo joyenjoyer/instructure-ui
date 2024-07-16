@@ -52,15 +52,15 @@ type ThemeOrOverride = BaseTheme | PartialTheme | Overrides
 type Props = Record<string, unknown>
 type State = Record<string, unknown>
 
-type GenerateComponentTheme = (
-  theme: BaseTheme | PartialTheme
-) => ComponentTheme
+type GenerateComponentTheme<T extends ComponentTheme = ComponentTheme> = (
+  theme: BaseTheme
+) => T
 
-type GenerateStyle = (
-  componentTheme: ComponentTheme,
-  props: Props,
-  state?: State
-) => StyleObject
+type GenerateStyle<
+  T extends ComponentTheme | undefined,
+  P extends Props,
+  S extends State
+> = (componentTheme: T, props: P, state: S) => StyleObject
 
 type ComponentStyle<Keys extends string = string> = Record<
   Keys,

@@ -69,7 +69,7 @@ category: components
 ---
 **/
 @withDeterministicId()
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @textDirectionContextConsumer()
 @testable()
 class DrawerLayout extends Component<DrawerLayoutProps, DrawerLayoutState> {

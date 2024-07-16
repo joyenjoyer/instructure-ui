@@ -53,7 +53,7 @@ id: TopNavBar.Layout
 ---
 @module TopNavBarLayout
 **/
-@withStyle(null, generateComponentTheme)
+@withStyle(undefined, generateComponentTheme)
 @testable()
 class TopNavBarLayout extends Component<TopNavBarLayoutProps> {
   static readonly componentId = 'TopNavBar.Layout'

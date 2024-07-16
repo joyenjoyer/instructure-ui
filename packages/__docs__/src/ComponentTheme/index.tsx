@@ -37,7 +37,7 @@ import generateStyle from './styles'
 import { propTypes, allowedProps } from './props'
 import type { ComponentThemeProps } from './props'
 
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 class ComponentTheme extends Component<ComponentThemeProps> {
   static propTypes = propTypes
   static allowedProps = allowedProps

@@ -46,7 +46,7 @@ id: TopNavBar.User
 ---
 @module TopNavBarUser
 **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @testable()
 class TopNavBarUser extends Component<TopNavBarUserProps> {
   static readonly componentId = 'TopNavBar.User'

@@ -22,16 +22,9 @@
  * SOFTWARE.
  */
 
-import {
-  TopNavBarBreadcrumbProps,
-  TopNavBarBreadcrumbStyle,
-  TopNavBarBreadcrumbStyleProps
-} from './props'
+import { TopNavBarBreadcrumbStyle } from './props'
 
-const generateStyle = (
-  _props: TopNavBarBreadcrumbProps,
-  _state: TopNavBarBreadcrumbStyleProps
-): TopNavBarBreadcrumbStyle => {
+const generateStyle = (): TopNavBarBreadcrumbStyle => {
   return {
     topNavBarBreadcrumb: {
       label: 'topNavBarBreadcrumb',

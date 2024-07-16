@@ -25,6 +25,7 @@
 /// <reference types="vitest" />
 
 import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   test: {
@@ -32,5 +33,18 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts'
-  }
+  },
+  esbuild: {
+    target: 'es2022'
+  },
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          // not sure if needed
+          ['@babel/plugin-proposal-decorators', { version: '2023-11' }]
+        ]
+      }
+    })
+  ]
 })

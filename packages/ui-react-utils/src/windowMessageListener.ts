@@ -21,8 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { decorator } from '@instructure/ui-decorator'
+
 import { ownerWindow } from '@instructure/ui-dom-utils'
+import { UIElement } from '@instructure/shared-types'
+
+type ToDecorate = {
+  new (...args: any[]): any
+  displayName?: string
+}
 
 /**
  * ---
@@ -33,17 +39,20 @@ import { ownerWindow } from '@instructure/ui-dom-utils'
  *
  * see https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
  * @module windowMessageListener
- * @param {Function} messageHandler a handler for messages receieved by the component
+ * @param {Function} messageHandler a handler for messages received by the component
  * @param {Function} validSource an optional function that would restrict message handling to a specified source.
  * @returns {Function} a function that decorates a React component with the behavior
  */
-const windowMessageListener = decorator(
-  (
-    ComposedComponent,
-    messageHandler: (data: any) => void,
-    validSource: string | (() => string)
-  ) => {
-    return class extends ComposedComponent {
+function windowMessageListener(
+  messageHandler: (data: any) => void,
+  validSource: string | (() => string)
+) {
+  return function ClassDecorator<C extends ToDecorate>(
+    target: C,
+    _context: ClassDecoratorContext
+  ) {
+    const displayName = target.displayName
+    const Decorated = class extends target {
       static postMessage = function (
         target: Window,
         message: any,
@@ -53,7 +62,7 @@ const windowMessageListener = decorator(
       }
 
       componentDidMount() {
-        const win = ownerWindow(this)!
+        const win = ownerWindow(this as any)!
 
         win.addEventListener('message', this.handleMessage, false)
 
@@ -63,7 +72,7 @@ const windowMessageListener = decorator(
       }
 
       componentWillUnmount() {
-        const win = ownerWindow(this)!
+        const win = ownerWindow(this as any)!
         win.removeEventListener('message', this.handleMessage, false)
 
         if (super.componentDidMount) {
@@ -99,8 +108,12 @@ const windowMessageListener = decorator(
         }
       }
     }
+    if (displayName) {
+      Decorated.displayName = displayName
+    }
+    return Decorated
   }
-)
+}
 
 /**
  * Return the origin of the owner window of the DOM element
@@ -110,7 +123,7 @@ const windowMessageListener = decorator(
  * @param {DOMElement} node
  * @returns {String} the origin
  */
-function origin(node: Element) {
+function origin(node: UIElement) {
   const ownWindow = ownerWindow(node)!
 
   const { location } = ownWindow

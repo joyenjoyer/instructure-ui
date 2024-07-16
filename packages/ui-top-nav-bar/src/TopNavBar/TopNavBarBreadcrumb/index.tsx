@@ -49,7 +49,7 @@ id: TopNavBar.Breadcrumb
 ---
 @module TopNavBarBreadcrumb
  **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 @testable()
 class TopNavBarBreadcrumb extends Component<
   TopNavBarBreadcrumbProps,

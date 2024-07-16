@@ -34,7 +34,7 @@ import type { DateInputProps, DateInputStyle } from './props'
  * @return The final style object, which will be used in the component
  */
 const generateStyle = (
-  _componentTheme: null,
+  _componentTheme: undefined,
   props: DateInputProps
 ): DateInputStyle => {
   return {

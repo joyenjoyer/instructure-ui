@@ -80,7 +80,7 @@ export type LiveRegion =
 
 interface InstUIBaseComponent {
   componentId?: string
-  allowedProps?: string[]
+  allowedProps?: readonly string[]
 }
 export interface InstUIComponent
   extends ComponentClass<any, any>,

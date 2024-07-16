@@ -40,7 +40,7 @@ id: Drilldown.Group
 **/
 // needed for listing the available theme variables on docs page,
 // we pass the themeOverrides to Options
-@withStyle(null, optionsThemeGenerator)
+@withStyle(undefined, optionsThemeGenerator)
 class DrilldownGroup extends Component<DrilldownGroupProps> {
   static readonly componentId = 'Drilldown.Group'
 

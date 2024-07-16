@@ -89,7 +89,7 @@ import type { RequestAnimationFrameType } from '@instructure/ui-dom-utils'
 import { ScreenReaderContent } from '@instructure/ui-a11y-content'
 import { textDirectionContextConsumer } from '@instructure/ui-i18n'
 
-import { withStyle, jsx } from '@instructure/emotion'
+import { withStyle, jsx, StyleObject } from '@instructure/emotion'
 
 import customSearch from './SearchPanel'
 
@@ -100,6 +100,8 @@ import { rtlHorizontalArrowKeymap } from './customKeybinding'
 
 import { propTypes, allowedProps } from './props'
 import type { SourceCodeEditorProps } from './props'
+import { GenerateStyle } from '@instructure/emotion/types/EmotionTypes'
+import { SourceCodeEditorTheme } from '@instructure/shared-types'
 
 /**
 ---
@@ -107,7 +109,16 @@ category: components
 ---
 **/
 @withDeterministicId()
-@withStyle(generateStyle, generateComponentTheme)
+// this tricky cast is needed because generateStyle returns a non-standard style object with Tag types
+// in other cases its just a nested object (see StyleObject)
+@withStyle(
+  generateStyle as unknown as GenerateStyle<
+    SourceCodeEditorTheme,
+    SourceCodeEditorProps,
+    StyleObject
+  >,
+  generateComponentTheme
+)
 @textDirectionContextConsumer()
 @testable()
 class SourceCodeEditor extends Component<SourceCodeEditorProps> {

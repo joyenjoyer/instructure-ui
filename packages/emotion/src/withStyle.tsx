@@ -23,17 +23,10 @@
  */
 
 import React, { forwardRef, useState } from 'react'
-import type {
-  ForwardRefExoticComponent,
-  PropsWithoutRef,
-  RefAttributes
-} from 'react'
-
 import hoistNonReactStatics from 'hoist-non-react-statics'
 
 import { deepEqual as isEqual } from '@instructure/ui-utils'
 import { warn } from '@instructure/console'
-import { decorator } from '@instructure/ui-decorator'
 
 import { getComponentThemeOverride } from './getComponentThemeOverride'
 import { useTheme } from './useTheme'
@@ -48,13 +41,14 @@ import type {
   ComponentOverride,
   GenerateComponentTheme,
   GenerateStyle,
-  Props
+  Props,
+  State
 } from './EmotionTypes'
 
 type ComponentName = keyof ComponentOverride
 
 interface WithStyleComponent extends InstUIComponent {
-  componentId?: ComponentName
+  readonly componentId?: ComponentName | string // string is used for non-InstUI components
 }
 
 type WithStylePrivateProps<
@@ -160,21 +154,29 @@ const defaultValues = {
  * @param {function} generateComponentTheme - The function that returns the component's theme variables object
  * @returns {ReactElement} The decorated WithStyle Component
  */
-const withStyle = decorator(
-  (
-    ComposedComponent: WithStyleComponent,
-    generateStyle: GenerateStyle,
-    generateComponentTheme: GenerateComponentTheme
-  ) => {
+function withStyle<
+  T extends ComponentTheme | undefined,
+  P extends Props,
+  S extends State
+>(
+  generateStyle?: GenerateStyle<T, P, S>,
+  generateComponentTheme?: T extends ComponentTheme
+    ? GenerateComponentTheme<T>
+    : undefined
+) {
+  return function ClassDecorator<C extends WithStyleComponent>(
+    ComposedComponent: C,
+    _context: ClassDecoratorContext
+  ) {
     const displayName = ComposedComponent.displayName || ComposedComponent.name
 
-    const WithStyle: ForwardRefExoticComponent<
-      PropsWithoutRef<Props> & RefAttributes<any>
-    > & {
-      generateComponentTheme?: GenerateComponentTheme
-      allowedProps?: string[]
+    const WithStyle: ReturnType<typeof forwardRef> & {
+      generateComponentTheme?: T extends ComponentTheme
+        ? GenerateComponentTheme<T>
+        : undefined
+      allowedProps?: readonly string[]
       originalType?: WithStyleComponent
-    } = forwardRef((props, ref) => {
+    } = forwardRef<any, any>((props, ref) => {
       const theme = useTheme()
 
       if (props.styles) {
@@ -192,16 +194,16 @@ const withStyle = decorator(
         )
       }
 
-      const componentProps: Props = {
+      const componentProps = {
         ...ComposedComponent.defaultProps,
         ...props,
         ...defaultValues
       }
 
-      let componentTheme: ComponentTheme =
+      let componentTheme =
         typeof generateComponentTheme === 'function'
-          ? generateComponentTheme(theme as BaseTheme)
-          : {}
+          ? (generateComponentTheme(theme as BaseTheme) as T)
+          : ({} as T)
 
       const themeOverride = getComponentThemeOverride(
         theme,
@@ -214,10 +216,15 @@ const withStyle = decorator(
       componentTheme = { ...componentTheme, ...themeOverride }
 
       const [styles, setStyles] = useState(
-        generateStyle ? generateStyle(componentTheme, componentProps, {}) : {}
+        generateStyle
+          ? generateStyle(componentTheme, componentProps, {} as S)
+          : {}
       )
 
-      const makeStyleHandler: WithStyleProps['makeStyles'] = (extraArgs) => {
+      const makeStyleHandler = (extraArgs: S) => {
+        if (!generateStyle) {
+          return
+        }
         const calculatedStyles = generateStyle(
           componentTheme,
           componentProps,
@@ -267,14 +274,12 @@ const withStyle = decorator(
       makeStyles: defaultValues.makeStyles,
       styles: defaultValues.styles
     }
-
-    if (process.env.NODE_ENV !== 'production') {
-      WithStyle.displayName = `WithStyle(${displayName})`
-    }
-
-    return WithStyle
+    // this is important for internal stuff like test locators!
+    WithStyle.displayName = displayName
+    // quite ugly, TODO come up with better typing
+    return WithStyle as unknown as C
   }
-)
+}
 
 export default withStyle
 export { withStyle }

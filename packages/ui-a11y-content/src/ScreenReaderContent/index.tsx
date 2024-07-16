@@ -40,7 +40,7 @@ category: components/utilities
 ---
 @module ScreenReaderContent
 **/
-@withStyle(generateStyle, null)
+@withStyle(generateStyle)
 class ScreenReaderContent extends Component<ScreenReaderContentProps> {
   static readonly componentId = 'ScreenReaderContent'
 

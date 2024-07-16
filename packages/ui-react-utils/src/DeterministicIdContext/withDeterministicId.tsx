@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import React, { forwardRef, useContext } from 'react'
+import { ComponentClass } from 'react'
+/*
+TODO rewrite to the new format
+import React, { ComponentClass, forwardRef, useContext } from 'react'
 import type {
   ForwardRefExoticComponent,
   PropsWithoutRef,
@@ -35,10 +38,11 @@ import { generateId } from '@instructure/ui-utils'
 
 import type { InstUIComponent } from '@instructure/shared-types'
 import { warn } from '@instructure/console'
-
+ */
 type WithDeterministicIdProps = {
   deterministicId?: (instanceName?: string) => string
 }
+
 /**
  * This decorator is used to enable the decorated class to use the `DeterministicIdContext` which is needed
  * for deterministic id generation.
@@ -47,6 +51,16 @@ type WithDeterministicIdProps = {
  * in the child components to deterministically create ids for them based on the `instanceCounterMap`.
  * Read more about it here: [SSR guide](https://instructure.design/#server-side-rendering)
  */
+function withDeterministicId() {
+  // just a dummy decorator
+  return <C extends ComponentClass<any>>(
+    targetCls: C,
+    _ctx?: ClassDecoratorContext
+  ): C => {
+    return targetCls
+  }
+}
+/*
 const withDeterministicId = decorator((ComposedComponent: InstUIComponent) => {
   type Props = PropsWithoutRef<Record<string, unknown>> & RefAttributes<any>
   const WithDeterministicId: ForwardRefExoticComponent<Props> & {
@@ -100,7 +114,7 @@ const withDeterministicId = decorator((ComposedComponent: InstUIComponent) => {
 
   return WithDeterministicId
 })
-
+*/
 export default withDeterministicId
 export { withDeterministicId }
 export type { WithDeterministicIdProps }

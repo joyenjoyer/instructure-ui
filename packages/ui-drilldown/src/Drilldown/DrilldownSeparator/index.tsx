@@ -40,7 +40,7 @@ id: Drilldown.Separator
 **/
 // needed for listing the available theme variables on docs page,
 // we pass the themeOverrides to Options.Separator
-@withStyle(null, optionsSeparatorThemeGenerator)
+@withStyle(undefined, optionsSeparatorThemeGenerator)
 class DrilldownSeparator extends Component<DrilldownSeparatorProps> {
   static readonly componentId = 'Drilldown.Separator'
 
