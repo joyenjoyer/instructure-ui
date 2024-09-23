@@ -159,9 +159,6 @@ class ProgressCircle extends Component<
           <progress
             max={valueMax}
             value={valueNow}
-            aria-valuetext={valueText}
-            aria-valuenow={valueNow}
-            aria-valuemax={valueMax}
             aria-label={labelAndValueText}
           />
         </ScreenReaderContent>
