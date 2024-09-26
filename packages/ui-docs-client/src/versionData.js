@@ -29,18 +29,18 @@
  *   latestVersion: string, (e.g.: 'v8')
  *   previousVersions: string[] (e.g.: ['v7', 'v6'])
  * }
+ * @param signal {AbortController.signal}
  * @returns {Promise<null|object>}
  */
-const fetchVersionData = async () => {
-  // eslint-disable-next-line compat/compat
+const fetchVersionData = async (signal) => {
   const isLocalHost = window.location.hostname === 'localhost'
 
   if (!isLocalHost) {
-    // eslint-disable-next-line compat/compat
-    const result = await fetch(`${window.location.origin}/versions.json`)
-    const versionsData = await result.json()
-
-    return versionsData
+    let input = window.location.hostname.includes('github.io')
+      ? `${window.location.origin}/instructure-ui/versions.json`
+      : `${window.location.origin}/versions.json`
+    const result = await fetch(input, { signal })
+    return await result.json()
   }
 
   return null
@@ -50,7 +50,9 @@ const fetchVersionData = async () => {
  * if we are on the docs page of a legacy version,
  * the path includes the version number, e.g. `/v7` or `/v8`
  */
-const [versionInPath] = window.location.pathname.split('/').filter(Boolean)
+const lastSegment =
+  window.location.pathname.split('/').filter(Boolean).pop() || ''
+const versionInPath = /v\d$/.test(lastSegment) ? lastSegment : undefined
 
 export default fetchVersionData
 export { fetchVersionData, versionInPath }
