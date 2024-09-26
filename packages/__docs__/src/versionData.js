@@ -50,7 +50,9 @@ const fetchVersionData = async (signal) => {
  * if we are on the docs page of a legacy version,
  * the path includes the version number, e.g. `/v7` or `/v8`
  */
-const [versionInPath] = window.location.pathname.split('/').filter(Boolean)
+const lastSegment =
+  window.location.pathname.split('/').filter(Boolean).pop() || ''
+const versionInPath = /v\d$/.test(lastSegment) ? lastSegment : undefined
 
 export default fetchVersionData
 export { fetchVersionData, versionInPath }
