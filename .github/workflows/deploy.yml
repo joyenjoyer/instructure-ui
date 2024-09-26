@@ -1,12 +1,5 @@
 name: Deploy docs to gh-pages
-on:
-  push:
-    branches:
-      - master
-      - v7_maintenance
-      - v8_maintenance
-      - v9_maintenance
-
+on: workflow_dispatch
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
@@ -28,6 +21,9 @@ jobs:
             echo "::set-output name=build_dir::./packages/__docs__/__build__"
             echo "::set-output name=deploy_dir::v8"
           elif [ "${{ github.ref }}" == "refs/heads/v9_maintenance" ]; then
+            echo "::set-output name=build_dir::./packages/__docs__/__build__"
+            echo "::set-output name=deploy_dir::v9"
+          elif [ "${{ github.ref }}" == "refs/heads/gh_pages_d" ]; then
             echo "::set-output name=build_dir::./packages/__docs__/__build__"
             echo "::set-output name=deploy_dir::v9"
           fi
