@@ -75,9 +75,12 @@ class Header extends Component {
     // If we select the latest version from the dropdown,
     // then navigate to the index (instructure.design/#currentHash).
     // In every other case eg.: v6,v7 navigate to --> instructure.design/v6/#currentHash
+    const rootToAdd = window.location.origin.includes('github.io')
+      ? '/instructure-ui'
+      : ''
     const versionToNavigate = isSelectedLatestVersion
-      ? `/${window.location.hash}`
-      : `/${selectedVersion}/${window.location.hash}`
+      ? `${rootToAdd}/${window.location.hash}`
+      : `${rootToAdd}/${selectedVersion}/${window.location.hash}`
 
     return window.location.replace(versionToNavigate)
   }
