@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@instructure/ui": "snapshot",
-    "next": "^14.2.3",
+    "next": "^14.2.22",
     "react": "^18",
     "react-dom": "^18"
   }
